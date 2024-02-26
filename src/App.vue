@@ -1,47 +1,38 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Card from './Card.vue';
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div id="bento-container">
+    <div class="padding-cell" v-for="row in 4" :style="{gridColumn: 1, gridRow: row}"></div>
+    <Card style="grid-area: 1 / 2" />
+    <Card style="grid-area: 1 / 3" />
+    <Card style="grid-area: 1 / 4" />
+    <Card style="grid-area: 1 / 5 / span 2" />
+    <Card style="grid-area: 2 / 2 / span 3" />
+    <Card style="grid-area: 2 / 3 / span 2 / span 2" />
+    <Card style="grid-area: 3 / 5" />
+    <Card style="grid-area: 4 / 3 / span 1 / span 3" />
+    <div class="padding-cell" v-for="row in 4" :style="{gridColumn: 6, gridRow: row}"></div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style lang="scss">
+:root {
+  --bento-gap: 20px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+#bento-container {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: var(--bento-gap);
+  padding: 0;
+  margin: var(--bento-gap);
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.padding-cell {
+  aspect-ratio: 1;
 }
 </style>
