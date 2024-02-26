@@ -5,14 +5,14 @@ import Card from './Card.vue';
 <template>
   <div id="bento-container">
     <div class="padding-cell" v-for="row in 4" :style="{gridColumn: 1, gridRow: row}"></div>
-    <Card style="grid-area: 1 / 2" />
-    <Card style="grid-area: 1 / 3" />
-    <Card style="grid-area: 1 / 4" />
-    <Card style="grid-area: 1 / 5 / span 2" />
-    <Card style="grid-area: 2 / 2 / span 3" />
-    <Card style="grid-area: 2 / 3 / span 2 / span 2" />
-    <Card style="grid-area: 3 / 5" />
-    <Card style="grid-area: 4 / 3 / span 1 / span 3" />
+    <Card :cs="1" :rs="1" />
+    <Card :cs="2" :rs="1" />
+    <Card :cs="3" :rs="1" />
+    <Card :cs="4" :rs="1" :re="2" />
+    <Card :cs="1" :rs="2" :re="4" />
+    <Card :cs="2" :rs="2" :ce="3" :re="3" />
+    <Card :cs="4" :rs="3" />
+    <Card :cs="2" :rs="4" :ce="4" /> 
     <div class="padding-cell" v-for="row in 4" :style="{gridColumn: 6, gridRow: row}"></div>
   </div>
 </template>

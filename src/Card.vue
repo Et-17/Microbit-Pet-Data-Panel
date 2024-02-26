@@ -1,11 +1,15 @@
 <script setup lang="ts">
-
-console.log("Initialized");
+const props = defineProps<{
+  cs: number
+  rs: number
+  ce?: number
+  re?: number
+}>();
 </script>
 
 <template>
-  <div class="bento-card">
-    <!-- this is a card -->
+  <div class="bento-card" :style="{gridColumnStart: cs + 1, gridRowStart: rs, gridColumnEnd: `span ${1+(ce ?? cs)-cs}`, gridRowEnd: `span ${1+(re ?? rs)-rs}`}">
+    <slot></slot>
   </div>
 </template>
 
