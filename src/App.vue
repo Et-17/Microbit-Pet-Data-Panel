@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ReqP } from "./receiver_management";
+
 import Card from './CardTypes/CardBase.vue';
 import GraphCard from './CardTypes/GraphCard.vue';
 import NumberCard from './CardTypes/NumberCard.vue';
@@ -15,6 +17,7 @@ import { rows, columns, readouts } from './panel_construction';
       <StateCard v-if="readout.type == 'state'" :cs="readout.position.cs" :rs="readout.position.rs" :ce="readout.position.ce" :re="readout.position.re" />
     </template>
   </BentoBox>
+  <button @click="ReqP">Click this</button>
 </template>
 
 <style lang="scss">
