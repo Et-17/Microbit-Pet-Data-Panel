@@ -28,9 +28,19 @@ export async function configureReceiver(freq, group) {
 
 async function getValue(message) {
     let value_bytes = message.slice(12, 16);
-    console.log(value_bytes);
     let number = (value_bytes[3] << 24) + (value_bytes[2] << 16) + (value_bytes[1] << 8) + value_bytes[0];
     return number;
+}
+
+const decoder = new TextDecoder("ascii");
+async function getKey(message) {
+    let string_length = message[16]
+    let string_bytes = message.slice(17, 17 + string_length);
+    return decoder.decode(new Uint8Array(string_bytes));
+}
+
+async function decodeMessage(message) {
+    return { key: await getKey(message), value: await getValue(message) };
 }
 
 async function receiveMessage(message) {
@@ -38,8 +48,7 @@ async function receiveMessage(message) {
     // if (message[3] == 1) {
     //     console.log(getValue(message));
     // }
-    console.log(message);
-    console.log(await getValue(message));
+    console.log(await decodeMessage(message));
 }
 
 const buffer_size = 32;
@@ -47,13 +56,11 @@ async function readLoop() {
     let buffer = new Array(buffer_size).fill(0);
     let cur_pos = 0;
     while (true) {
-        console.log("Started loop");
         const { value, done } = await reader.read();
         if (done) {
             console.log("Reader has been cancelled");
             break;
         }
-        console.log("Looped");
         for (let i = 0; i < value.length; i++) {
             if (cur_pos == buffer_size) {
                 receiveMessage(buffer);
