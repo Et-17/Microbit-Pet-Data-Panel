@@ -66,7 +66,7 @@ export const columns: Ref<number> = ref(3);
 export const readouts: Readout[] = [
     {
         name: "test-graph",
-        key: "test",
+        key: "testing",
         type: "graph",
         position: {
             cs: 0,
@@ -77,7 +77,7 @@ export const readouts: Readout[] = [
     },
     {
         name: "test-number",
-        key: "test",
+        key: "testing",
         type: "number",
         position: {
             cs: 1,
@@ -88,7 +88,7 @@ export const readouts: Readout[] = [
     },
     {
         name: "test-state",
-        key: "test",
+        key: "testing",
         type: "state",
         position: {
             cs: 2,

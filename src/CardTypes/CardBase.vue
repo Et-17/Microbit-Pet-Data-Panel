@@ -1,10 +1,27 @@
 <script setup lang="ts">
+import { type Message, listeners } from '@/receiver_management/message_handling';
+
+listeners.push((message: Message) => {
+  console.log("message" + message.key);
+  console.log("props" + props.listeningKey);
+  if (message.key == props.listeningKey) {
+    emit("new-value", message.value);
+  }
+});
+
+const emit = defineEmits<{
+  (e: 'new-value', value: number): void
+}>();
+
 const props = defineProps<{
   cs: number
   rs: number
   ce?: number
   re?: number
+  listeningKey: string
 }>();
+
+console.log(props.listeningKey);
 </script>
 
 <template>
@@ -17,7 +34,5 @@ const props = defineProps<{
 .bento-card {
   border-radius: 10px;
   background-color: grey;
-  /* height: 100%; */
-  /* width: 100%; */
 }
 </style>

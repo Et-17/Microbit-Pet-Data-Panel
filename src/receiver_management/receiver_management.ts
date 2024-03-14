@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { broadcastMessage } from "./message_handling";
 
 let port = null;
 let reader = null;
@@ -48,7 +49,7 @@ async function receiveMessage(message) {
     // if (message[3] == 1) {
     //     console.log(getValue(message));
     // }
-    console.log(await decodeMessage(message));
+    broadcastMessage(await decodeMessage(message));
 }
 
 const buffer_size = 32;
