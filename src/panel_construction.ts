@@ -63,9 +63,9 @@ export interface StateReadout extends Readout {
 export const rows: Ref<number> = ref(3);
 export const columns: Ref<number> = ref(3);
 // export const readouts: Readout[] = [{name: "test", key: "test", type: "graph", position: {cs: 0, rs: 0, ce: 1, re: 2}}];
-export const readouts: Readout[] = [
+export const readouts: (GraphReadout | NumberReadout | StateReadout)[] = [
     {
-        name: "test-graph",
+        name: "Test Graph",
         key: "testing",
         type: "graph",
         position: {
@@ -73,10 +73,11 @@ export const readouts: Readout[] = [
             rs: 0,
             ce: 0,
             re: 0,
-        }
+        },
+        max_data_points: 200,
     },
     {
-        name: "test-number",
+        name: "Test Number",
         key: "testing",
         type: "number",
         position: {
@@ -84,10 +85,11 @@ export const readouts: Readout[] = [
             rs: 1,
             ce: 1,
             re: 1,
-        }
+        },
+        unit: " lb"
     },
     {
-        name: "test-state",
+        name: "Test State",
         key: "testing",
         type: "state",
         position: {
@@ -95,6 +97,7 @@ export const readouts: Readout[] = [
             rs: 2,
             ce: 2,
             re: 2,
-        }
-    }
+        },
+        states: {}
+    },
 ]

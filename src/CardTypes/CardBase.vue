@@ -32,6 +32,7 @@ console.log(props.listeningKey);
 
 <style>
 .bento-card {
+  position: relative;
   border-radius: 10px;
   background-color: grey;
 }

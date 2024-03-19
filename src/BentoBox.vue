@@ -11,7 +11,7 @@ const props = defineProps<{
   <div id="bento-box" :style="{gridTemplateColumns: `repeat(${columns + 2}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`}">
     <div class="padding-cell" v-for="row in rows" :style="{gridColumn: 1, gridRow: row}"></div>
     <slot>
-      <Card :cs="0" :rs="0" :ce="columns - 1" :re="rows - 1" id="empty-bento-announcement" key="">
+      <Card :cs="0" :rs="0" :ce="columns - 1" :re="rows - 1" id="empty-bento-announcement" listeningKey="">
         No content given to the bento box
       </Card>
     </slot>

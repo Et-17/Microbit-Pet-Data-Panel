@@ -10,12 +10,16 @@ async function receive() {
 }
 
 const props = defineProps<{
-    cs: number
-    rs: number
-    ce?: number
-    re?: number
-    listeningKey: string
-  }>();
+  name: string
+  cs: number
+  rs: number
+  ce?: number
+  re?: number
+  listeningKey: string
+  max_data_points: number
+  max_value?: number
+  min_value?: number
+}>();
 
 console.log(props);
 </script>
