@@ -98,6 +98,13 @@ export const readouts: (GraphReadout | NumberReadout | StateReadout)[] = [
             ce: 2,
             re: 2,
         },
-        states: {}
+        states: {
+            1: "angry",
+            2: "furious",
+            3: "happy",
+            4: "scared",
+            5: "lpk"
+        },
+        default: "no match"
     },
 ]
