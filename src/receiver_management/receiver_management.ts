@@ -45,10 +45,6 @@ async function decodeMessage(message) {
 }
 
 async function receiveMessage(message) {
-    // console.log(message);
-    // if (message[3] == 1) {
-    //     console.log(getValue(message));
-    // }
     broadcastMessage(await decodeMessage(message));
 }
 

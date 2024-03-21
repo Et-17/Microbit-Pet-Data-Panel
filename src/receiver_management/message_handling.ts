@@ -8,7 +8,5 @@ export const listeners: ((message: Message) => void)[] = [];
 export async function broadcastMessage(message: Message) {
     listeners.forEach(callback => {
         callback(message);
-        console.log(callback);
     });
-    console.log(message);
 }

@@ -7,8 +7,6 @@ import NumberCard from './CardTypes/NumberCard.vue';
 import StateCard from './CardTypes/StateCard.vue';
 import BentoBox from './BentoBox.vue';
 import { rows, columns, readouts } from './panel_construction';
-
-console.log(readouts);
 </script>
 
 <template>

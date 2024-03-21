@@ -74,7 +74,7 @@ export const readouts: (GraphReadout | NumberReadout | StateReadout)[] = [
             ce: 0,
             re: 0,
         },
-        max_data_points: 200,
+        max_data_points: 10,
     },
     {
         name: "Test Number",
