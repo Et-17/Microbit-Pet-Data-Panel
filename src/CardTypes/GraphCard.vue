@@ -14,7 +14,7 @@ function receive(num: number) {
   if (chart.data.datasets[0].data.length > props.max_data_points) {
     chart.data.datasets[0].data.shift();
     chart.update();
-  } else if (chart.data.datasets[0].data.length < props.max_data_points) {
+  } else if (chart.data.datasets[0].data.length <= props.max_data_points) {
     // i'm not entirely sure why i have to cast to a number here but it works
     chart.data.labels.push((chart.data.labels[chart.data.labels.length - 1] as number ?? 0) + 1);
   }
@@ -41,7 +41,8 @@ onMounted(() => {
     type: "line",
     data: {
       datasets: [{
-        data: []
+        data: [],
+        tension: 0.4
       }],
       labels: []
     },
@@ -51,9 +52,14 @@ onMounted(() => {
           type: "linear",
           position: "left",
           max: props.max_value,
-          min: props.min_value
+          min: props.min_value,
         },
       },
+      elements: {
+        point: {
+          pointStyle: false
+        }
+      }
     },
   })
 })
