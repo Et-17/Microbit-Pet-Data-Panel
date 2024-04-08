@@ -59,6 +59,11 @@ onMounted(() => {
         point: {
           pointStyle: false
         }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
       }
     },
   })
@@ -79,7 +84,42 @@ const props = defineProps<{
 
 <template>
   <CardBase :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
-    <canvas ref="graph"></canvas>
-    <button @click="remove_point">remove</button>
+    <div class="graph-card-title-container">
+      <span class="graph-card-name"> {{ name }} </span>
+      <span class="graph-card-value"> {{  listeningKey }} </span>
+    </div>
+    <canvas ref="graph" class="graph-card-graph"></canvas>
   </CardBase>
 </template>
+
+<style lang="scss">
+.graph-card-title-container {
+  position: absolute;
+  top: 25%;
+  width: 75%;
+  left: 12.5%;
+}
+
+.graph-card-name {
+  display: block;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.graph-card-value {
+  display: block;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  width: 100%;
+  text-align: center;
+  font-size: 1.25rem;
+  opacity: 75%;
+}
+
+.graph-card-graph {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+</style>
