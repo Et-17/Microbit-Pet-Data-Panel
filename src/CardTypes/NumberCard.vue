@@ -26,7 +26,7 @@ const props = defineProps<{
       <span class="number-card-name"> {{ name }} </span>
       <span class="number-card-value"> {{ listeningKey }} </span>
     </div>
-    <span class="number-card-number"> {{ current_number.toString() + unit }} </span>
+    <span class="number-card-number"> {{ current_number.toString() + (unit ?? "") }} </span>
   </CardBase>
 </template>
 

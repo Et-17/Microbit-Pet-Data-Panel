@@ -1,12 +1,27 @@
 <script setup lang="ts">
 import { start } from './receiver_management/receiver_management';
-
 import Card from './CardTypes/CardBase.vue';
 import GraphCard from './CardTypes/GraphCard.vue';
 import NumberCard from './CardTypes/NumberCard.vue';
 import StateCard from './CardTypes/StateCard.vue';
 import BentoBox from './BentoBox.vue';
 import { rows, columns, readouts } from './panel_construction';
+import { ref, type Ref } from 'vue';
+
+const panel_description_file_input: Ref<HTMLInputElement | undefined> = ref(undefined);
+
+async function makePanel() {
+  if (panel_description_file_input.value == undefined || panel_description_file_input.value.files == null || panel_description_file_input.value.files.length == 0) {
+    alert("You must submit a panel description file");
+    return;
+  }
+  const panel_description_file = panel_description_file_input.value.files[0];
+  const panel_description = JSON.parse(await panel_description_file.text());
+  console.log(panel_description);
+  rows.value = panel_description.rows;
+  columns.value = panel_description.columns;
+  readouts.value = panel_description.readouts;
+}
 </script>
 
 <template>
@@ -23,7 +38,9 @@ import { rows, columns, readouts } from './panel_construction';
         :default_state="readout.default" />
     </template>
   </BentoBox>
-  <button @click="start">Click this</button>
+  <button @click="start">Start Receiving</button>
+  <button @click="makePanel">Make Panel</button>
+  <input type="file" ref="panel_description_file_input">
 </template>
 
 <style lang="scss">

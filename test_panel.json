@@ -1,0 +1,49 @@
+{
+    "rows": 3,
+    "columns": 3,
+    "readouts": [
+        {
+            "name": "Test Graph JSON",
+            "key": "testing",
+            "type": "graph",
+            "position": {
+                "cs": 0,
+                "rs": 0,
+                "ce": 0,
+                "re": 0
+            },
+            "max_data_points": 10
+        },
+        {
+            "name": "Test Number JSON",
+            "key": "testing",
+            "type": "number",
+            "position": {
+                "cs": 1,
+                "rs": 1,
+                "ce": 1,
+                "re": 1
+            },
+            "unit": " lb"
+        },
+        {
+            "name": "Test State JSON",
+            "key": "testing",
+            "type": "state",
+            "position": {
+                "cs": 2,
+                "rs": 2,
+                "ce": 2,
+                "re": 2
+            },
+            "states": {
+                "1": "angry",
+                "2": "furious",
+                "3": "happy",
+                "4": "scared",
+                "5": "mad"
+            },
+            "default": "no match"
+        }
+    ]
+}

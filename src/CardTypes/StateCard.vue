@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, type Ref } from 'vue';
 import CardBase from './CardBase.vue';
 import { listeners, type Message } from '@/receiver_management/message_handling';
 
-const current_state = ref("no values received");
+const current_state: Ref<string | undefined> = ref(undefined);
 
 async function receive(num: number) {
   current_state.value = props.states[num];

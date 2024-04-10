@@ -63,7 +63,7 @@ export interface StateReadout extends Readout {
 export const rows: Ref<number> = ref(3);
 export const columns: Ref<number> = ref(3);
 // export const readouts: Readout[] = [{name: "test", key: "test", type: "graph", position: {cs: 0, rs: 0, ce: 1, re: 2}}];
-export const readouts: (GraphReadout | NumberReadout | StateReadout)[] = [
+export const readouts: Ref<(GraphReadout | NumberReadout | StateReadout)[]> = ref([
     {
         name: "Test Graph",
         key: "testing",
@@ -107,4 +107,4 @@ export const readouts: (GraphReadout | NumberReadout | StateReadout)[] = [
         },
         default: "no match"
     },
-]
+]);

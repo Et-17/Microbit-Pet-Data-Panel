@@ -1,0 +1,107 @@
+{
+    "rows": 3,
+    "columns": 4,
+    "readouts": [
+        {
+            "name": "Hunger",
+            "key": "hungleve",
+            "type": "graph",
+            "position": {
+                "cs": 0,
+                "rs": 0,
+                "ce": 1,
+                "re": 0
+            },
+            "max_data_points": 200
+        },
+        {
+            "name": "Loneliness",
+            "type": "graph",
+            "key": "loneleve",
+            "position": {
+                "cs": 2,
+                "rs": 0,
+                "ce": 3,
+                "re": 0
+            },
+            "max_data_points": 200
+        },
+        {
+            "name": "Mortal Form",
+            "type": "state",
+            "key": "life",
+            "position": {
+                "cs": 0,
+                "rs": 1,
+                "ce": 0,
+                "re": 1
+            },
+            "states": {
+                "1": "Alive",
+                "2": "Dead"
+            },
+            "default": "Limbo"
+        },
+        {
+            "name": "Hunger",
+            "type": "state",
+            "key": "hungstat",
+            "position": {
+                "cs": 1,
+                "rs": 1,
+                "ce": 1,
+                "re": 1
+            },
+            "states": {
+                "1": "Fed",
+                "2": "Hungry",
+                "3": "Starving"
+            },
+            "default": "Unknown"
+        },
+        {
+            "name": "Loneliness",
+            "type": "state",
+            "key": "lonestat",
+            "position": {
+                "cs": 2,
+                "rs": 1,
+                "ce": 2,
+                "re": 1
+            },
+            "states": {
+                "1": "Satisfied",
+                "2": "Desperate",
+                "3": "Resolved to solitude"
+            },
+            "default": "Unknown"
+        },
+        {
+            "name": "Preservability",
+            "type": "state",
+            "key": "preserva",
+            "position": {
+                "cs": 3,
+                "rs": 1,
+                "ce": 3,
+                "re": 1
+            },
+            "states": {
+                "1": "Plausible",
+                "2": "Damned to Hell"
+            },
+            "default": "Unknown"
+        },
+        {
+            "name": "Seconds Until Death",
+            "type": "number",
+            "key": "deattime",
+            "position": {
+                "cs": 0,
+                "rs": 2,
+                "ce": 3,
+                "re": 2
+            }
+        }
+    ]
+}
