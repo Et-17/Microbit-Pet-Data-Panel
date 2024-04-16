@@ -28,7 +28,11 @@ The y-axis is autoranging by default, but you are able to specify a `max_value` 
 
 ### Number Readout
 
-The number readout is the simplest of all the readouts: it simply displays the most recently sent value and will optionally append a unit. If you do not want a unit, then do not specify one. However, if you *do* want a unit, specify it as `unit`. Note that the space is not included, and if you want a space between the number and the unit, you must add it. For example: `" lb"`, not `"lb"`. This unit is full unicode compatible, and is therefore compatible with units such as Ohms (Ω) and Ångströms (Å), if you wanted those for whatever reason.
+The number readout is the simplest of all the readouts: it simply displays the most recently sent value and will optionally append a unit. If you do not want a unit, then do not specify one. However, if you *do* want a unit, specify it as `unit`. Note that the space is not included, and if you want a space between the number and the unit, you must add it. For example: `" lb"`, not `"lb"`. This unit is fully Unicode compatible, and is therefore compatible with units such as Ohms (Ω) and Ångströms (Å), if you wanted those for whatever reason.
+
+### State Readout
+
+Sometimes you need to convy a text state, but you are only able to send numbers. There is a solution to this: the state readout, which will map the sent numbers to a text state. For example, if our pet could be in three states: happy, sad, and sleeping, then we could map 1 to happy, 2 to sad, and 3 to sleeping. Then if we send 1 to that channel, the state readout will display "happy"; if we send 2, the state readout will display "sad"; and so on. You are also able to specify a default state that will be displayed when the received number doesn't match anything. Like the number readout, the state readout is completely Unicode compliant, allowing you to use other scripts such as "счастливый" (Russian), "ความสุข" (Thai), or "高兴" (Mandarin) instead of "happy".
 
 ## The Panel Definition File
 
@@ -43,5 +47,9 @@ The configuration of your panel is determined by the panel definition file. It i
 The file can be named whatever you like as long as it is a `.json` file. The next step is clearly adding the readouts, so we will discuss those next.
 
 ### Readouts
+
+All readouts have common information that we will describe here, which is combined with type specific information. Each readout has a Unicode compliant `name`, which is diplayed at the top in big letters. Then you need to specify the `key`, which is displayed in smaller letters below the title. Next is `type`, which is `graph`, `state`, or `number`.
+
+The hardestpart of this to understand is the position definition. `position` is an object containing four values: `cs`, `rs`, `ce`, and `re`.  `cs` (column start) is the column of the upper left corner, `rs` (row start) is the row of the upper left corner, `ce` (column end) is the column of the lower right corner, and `re` (row end) is the row of the lower right corner. It is planned to add more visual aid fto help explain positioning, but for now just guess and check if you can't figure it out.
 
 #### Graph Readout
