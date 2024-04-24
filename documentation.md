@@ -52,4 +52,83 @@ All readouts have common information that we will describe here, which is combin
 
 The hardestpart of this to understand is the position definition. `position` is an object containing four values: `cs`, `rs`, `ce`, and `re`.  `cs` (column start) is the column of the upper left corner, `rs` (row start) is the row of the upper left corner, `ce` (column end) is the column of the lower right corner, and `re` (row end) is the row of the lower right corner. It is planned to add more visual aid fto help explain positioning, but for now just guess and check if you can't figure it out.
 
+For example, if we have a number readout occupying cells stretching from cell $(0, 0)$ to cell $(0, 1)$ named "Steps" which uses the `stepcnt` key, then we could start the definition with the following.
+
+```json
+{
+    "name": "Steps",
+    "key": "stepcnt",
+    "type": "number",
+    "position": {
+        "cs": 0,
+        "rs": 0,
+        "ce": 1,
+        "re": 0
+    },
+    ...
+}
+```
+
 #### Graph Readout
+
+Only the `max_data_points` parameter is required. The `min_value` and `max_value` parameters are completely optional, as explained above. For example, say we have a graph readout named "Happiness %" that uses the key `happperc` and stretches from $(0, 0)$ to $(1, 3)$ and we want to display the last 300 data points. We know that percentages range from $0$-$100$, so we could write the following.
+
+```json
+{
+    "name": "Happiness %",
+    "key": "happperc",
+    "type": "graph",
+    "position": {
+        "cs": 0,
+        "rs": 0,
+        "ce": 1,
+        "re": 3
+    },
+    "max_data_points": 300,
+    "max_value": 100,
+    "min_value": 0
+}
+```
+
+#### Number Readout
+
+Just as the number readout is the simplest readout it has the simplest definition. The only parameter is `unit` and it is optional. Going back to our previous example of a number readout occupying cells stretching from cell $(0, 0)$ to cell $(0, 1)$ named "Steps" which uses the `stepcnt` key and using "steps" as the unit, we can write the following.
+
+```json
+{
+    "name": "Steps",
+    "key": "stepcnt",
+    "type": "number",
+    "position": {
+        "cs": 0,
+        "rs": 0,
+        "ce": 1,
+        "re": 0
+    },
+    "unit": " steps"
+}
+```
+
+#### State Readout
+
+The state readout is the most complicated to configure. The states are listed as an in the parameter `states` with object with with their coding numbers as the key (it's hard to explain, just see the example). It also takes the `default` parameters. For example, say we wanted a state readout with the name "Emotional State" with the key `emotstat`. It has three states: $1$ means "Unhappy", $2$ means "Meh", and $3$ means "Happy". For this, we can write the following.
+
+```json
+{
+    "name": "Emotional State",
+    "key": "emotstat",
+    "type": "state",
+    "position": {
+        "cs": 0,
+        "rs": 0,
+        "ce": 0,
+        "re": 0,
+    },
+    "states": {
+        "1": "Unhappy",
+        "2": "Meh",
+        "3": "Happy"
+    },
+    "default": "No Match"
+}
+```
