@@ -32,5 +32,6 @@ const props = defineProps<{
   position: relative;
   border-radius: 10px;
   background-color: grey;
+  padding: var(--bento-gap);
 }
 </style>
