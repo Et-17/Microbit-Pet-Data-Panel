@@ -39,6 +39,9 @@ async function makePanel() {
     </template>
   </BentoBox>
   <button @click="start">Start Receiving</button>
+  <a href="https://github.com/Et-17/mbpet-data-panel/blob/43cde5c18d4ac9dcb1e4134fc26a630e1cd54c0b/documentation.md">
+    <button>Documentation</button>
+  </a>
   <button @click="makePanel">Make Panel</button>
   <input type="file" ref="panel_description_file_input">
 </template>
