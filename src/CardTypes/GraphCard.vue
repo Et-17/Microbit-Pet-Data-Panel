@@ -55,7 +55,7 @@ onMounted(() => {
           display: false
         }
       },
-      maintainAspectRatio: false,
+      maintainAspectRatio: false
     },
   })
 })
@@ -75,8 +75,10 @@ const props = defineProps<{
 
 <template>
   <CardBase class="graph-card-base" :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey">
-    <span class="graph-card-name"> {{ name }} </span>
-    <span class="graph-card-value"> {{ listeningKey }} </span>
+    <div class="graph-card-title-container">
+      <span class="graph-card-name"> {{ name }} </span>
+      <span class="graph-card-value"> {{ listeningKey }} </span>
+    </div>
     <div class="graph-card-graph-container">
       <canvas ref="graph" class="graph-card-graph"></canvas>
     </div>
@@ -89,6 +91,12 @@ const props = defineProps<{
   flex-direction: column;
 }
 
+.graph-card-title-container {
+  flex-grow: 0;
+  display: flex;
+  align-items: baseline;
+}
+
 .graph-card-name {
   flex-grow: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -96,19 +104,19 @@ const props = defineProps<{
 }
 
 .graph-card-value {
-  flex-grow: 0;
+  margin-left: calc(var(--bento-gap) / 2);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 1.25rem;
   opacity: 75%;
 }
 
 .graph-card-graph-container {
-  margin-top: var(--bento-gap);
   flex-grow: 1;
-  width: 100%;
+  margin-top: var(--bento-gap);
 }
 
 .graph-card-graph {
   max-width: 100%;
+  max-height: 100%;
 }
 </style>
