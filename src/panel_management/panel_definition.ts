@@ -28,14 +28,14 @@ import type { Ref } from "vue";
 // Mapping of Numbers to States
 // Default
 
-interface ReadoutPosition {
+export interface ReadoutPosition {
     cs: number;
     rs: number;
     ce: number;
     re: number;
 }
 
-interface Readout {
+export interface Readout {
     name: string;
     key: string;
     type: "graph" | "number" | "state";
