@@ -1,30 +1,86 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { columns } from '@/panel_construction';
+import { ref, type Ref } from 'vue';
+import { start, stop } from '@/receiver_management/receiver_management';
+import { rows, columns, readouts } from '@/panel_construction';
 
-const label_toggle_on = ref(false);
+const label_toggle_on: Ref<boolean> = ref(false);
+const play_symbol: Ref<HTMLSpanElement | undefined> = ref(undefined);
+const receiving = ref(false);
+
+async function toggleReceiving() {
+  if (receiving.value) {
+    stop_receiving();
+  } else if (!receiving.value) {
+    startReceiving();
+  }
+}
+
+async function startReceiving() {
+  if (play_symbol.value == undefined) {
+    return;
+  }
+  start();
+  play_symbol.value.textContent = "stop";
+  receiving.value = true;
+}
+
+function stop_receiving() {
+  if (play_symbol.value == undefined) {
+    return;
+  }
+  stop();
+  play_symbol.value.textContent = "play_arrow";
+  receiving.value = false;
+}
+
+const panel_description_file_input: Ref<HTMLInputElement | undefined> = ref(undefined);
+
+async function uploadPanel() {
+  if (panel_description_file_input.value == undefined) {
+    return;
+  }
+  panel_description_file_input.value.click();
+}
+
+async function makePanel() {
+  if (panel_description_file_input.value == undefined || panel_description_file_input.value.files == null || panel_description_file_input.value.files.length == 0) {
+    alert("You must submit a panel description file");
+    return;
+  }
+  const panel_description_file = panel_description_file_input.value.files[0];
+  const panel_description = JSON.parse(await panel_description_file.text());
+  console.log(panel_description);
+  rows.value = panel_description.rows;
+  columns.value = panel_description.columns;
+  readouts.value = panel_description.readouts;
+}
 </script>
 
 <template>
   <div id="navbar">
-    <div id="navbar-buttons-container" :class="{'navbar-label-toggle-on': label_toggle_on}">
-      <div class="navbar-button-container">
-        <span class="navbar-button-symbol material-symbols-rounded">play_arrow</span>
+    <div id="navbar-buttons-container" :class="{ 'navbar-label-toggle-on': label_toggle_on }">
+      <div class="navbar-button-container" @click="toggleReceiving">
+        <span class="navbar-button-symbol material-symbols-rounded" ref="play_symbol">play_arrow</span>
       </div>
       <span class="navbar-label">Start Listening</span>
       <br>
-      <div class="navbar-button-container">
+      <div class="navbar-button-container" @click="uploadPanel">
         <span class="navbar-button-symbol material-symbols-rounded">data_array</span>
       </div>
       <span class="navbar-label">Upload Panel</span>
+      <input id="navbar-file-upload" type="file" @input="makePanel" ref="panel_description_file_input">
       <br>
-      <div class="navbar-button-container">
-        <span class="navbar-button-symbol material-symbols-rounded">notes</span>
-      </div>
+      <a
+        href="https://github.com/Et-17/mbpet-data-panel/blob/43cde5c18d4ac9dcb1e4134fc26a630e1cd54c0b/documentation.md">
+        <div class="navbar-button-container">
+          <span class="navbar-button-symbol material-symbols-rounded">notes</span>
+        </div>
+      </a>
       <span class="navbar-label">Help</span>
       <div id="label-toggle">
         <div class="navbar-button-container" @click="label_toggle_on = !label_toggle_on">
-          <span class="navbar-button-symbol material-symbols-rounded" :class="{'label-toggle-on': label_toggle_on}">menu</span>
+          <span class="navbar-button-symbol material-symbols-rounded"
+            :class="{ 'label-toggle-on': label_toggle_on }">menu</span>
         </div>
       </div>
     </div>
@@ -38,6 +94,11 @@ const label_toggle_on = ref(false);
   top: var(--bento-gap);
   bottom: var(--bento-gap);
   transition: 0.5s width;
+
+  a {
+    color: unset;
+    cursor: unset;
+  }
 }
 
 #navbar-buttons-container {
@@ -45,7 +106,7 @@ const label_toggle_on = ref(false);
   overflow: hidden;
   white-space: nowrap;
   transition: 0.5s width;
-  
+
   &.navbar-label-toggle-on {
     width: 100%;
   }
@@ -90,5 +151,9 @@ const label_toggle_on = ref(false);
   font-size: 24pt;
   vertical-align: 11.5%;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#navbar-file-upload {
+  display: none;
 }
 </style>

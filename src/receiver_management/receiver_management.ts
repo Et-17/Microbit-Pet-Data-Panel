@@ -4,6 +4,7 @@ import { broadcastMessage } from "./message_handling";
 let port = null;
 let reader = null;
 let writer = null;
+let run_read_loop = false;
 
 async function requestPort() {
     port = await navigator.serial.requestPort();
@@ -52,7 +53,7 @@ const buffer_size = 32;
 async function readLoop() {
     let buffer = new Array(buffer_size).fill(0);
     let cur_pos = 0;
-    while (true) {
+    while (run_read_loop) {
         const { value, done } = await reader.read();
         if (done) {
             console.log("Reader has been cancelled");
@@ -79,6 +80,11 @@ export async function start() {
     console.log("Got reader");
     await configureReceiver(5, 20);
     console.log("Configured receiver");
+    run_read_loop = true;
     readLoop();
     console.log("Initiated read loop");
+}
+
+export async function stop() {
+    run_read_loop = false;
 }
