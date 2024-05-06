@@ -32,7 +32,6 @@ onMounted(() => {
     data: {
       datasets: [{
         data: [],
-        tension: 0.4
       }],
       labels: []
     },
@@ -44,6 +43,9 @@ onMounted(() => {
           max: props.max_value,
           min: props.min_value,
         },
+        x: {
+          display: false
+        }
       },
       elements: {
         point: {

@@ -71,7 +71,7 @@ async function makePanel() {
       <input id="navbar-file-upload" type="file" @input="makePanel" ref="panel_description_file_input">
       <br>
       <a
-        href="https://github.com/Et-17/mbpet-data-panel/blob/43cde5c18d4ac9dcb1e4134fc26a630e1cd54c0b/documentation.md">
+        href="https://github.com/Et-17/mbpet-data-panel/blob/prod/documentation.md">
         <div class="navbar-button-container">
           <span class="navbar-button-symbol material-symbols-rounded">notes</span>
         </div>
