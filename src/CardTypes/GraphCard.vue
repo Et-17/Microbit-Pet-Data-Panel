@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import CardBase from './CardBase.vue';
-import { listeners, type Message } from '@/receiver_management/message_handling';
-// i know i'm not supposed to do this but i'm too busy and lazy to figure out
-// the fancy tree shaking stuff
+// TODO: implement tree shaking
 import Chart from 'chart.js/auto';
+
+const graph = ref(undefined);
+let chart: Chart | undefined = undefined;
 
 function receive(num: number) {
   if (chart == undefined || chart.data.labels == undefined) {
@@ -22,17 +23,6 @@ function receive(num: number) {
   chart.update();
 }
 
-function remove_point() {
-  if (chart == undefined || chart.data.labels == undefined) {
-    return;
-  }
-  chart.data.datasets[0].data.shift();
-  chart.update();
-}
-
-const graph = ref(undefined);
-let chart: Chart | undefined = undefined;
-
 onMounted(() => {
   if (graph.value == undefined) {
     return;
@@ -42,7 +32,6 @@ onMounted(() => {
     data: {
       datasets: [{
         data: [],
-        tension: 0.4
       }],
       labels: []
     },
@@ -54,6 +43,9 @@ onMounted(() => {
           max: props.max_value,
           min: props.min_value,
         },
+        x: {
+          display: false
+        }
       },
       elements: {
         point: {
@@ -64,7 +56,8 @@ onMounted(() => {
         legend: {
           display: false
         }
-      }
+      },
+      maintainAspectRatio: false
     },
   })
 })
@@ -83,43 +76,49 @@ const props = defineProps<{
 </script>
 
 <template>
-  <CardBase :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
+  <CardBase class="graph-card-base" :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
     <div class="graph-card-title-container">
       <span class="graph-card-name"> {{ name }} </span>
-      <span class="graph-card-value"> {{  listeningKey }} </span>
+      <span class="graph-card-value"> {{ listeningKey }} </span>
     </div>
-    <canvas ref="graph" class="graph-card-graph"></canvas>
+    <div class="graph-card-graph-container">
+      <canvas ref="graph" class="graph-card-graph"></canvas>
+    </div>
   </CardBase>
 </template>
 
 <style lang="scss">
+.graph-card-base {
+  display: flex;
+  flex-direction: column;
+}
+
 .graph-card-title-container {
-  position: absolute;
-  top: 25%;
-  width: 75%;
-  left: 12.5%;
+  flex-grow: 0;
+  display: flex;
+  align-items: baseline;
 }
 
 .graph-card-name {
-  display: block;
+  flex-grow: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 100%;
-  text-align: center;
   font-size: 1.5rem;
 }
 
 .graph-card-value {
-  display: block;
+  margin-left: calc(var(--bento-gap) / 2);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 100%;
-  text-align: center;
   font-size: 1.25rem;
   opacity: 75%;
 }
 
+.graph-card-graph-container {
+  flex-grow: 1;
+  margin-top: var(--bento-gap);
+}
+
 .graph-card-graph {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>

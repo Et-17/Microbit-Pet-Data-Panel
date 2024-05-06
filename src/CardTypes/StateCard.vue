@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import CardBase from './CardBase.vue';
-import { listeners, type Message } from '@/receiver_management/message_handling';
 
 const current_state: Ref<string | undefined> = ref(undefined);
 
@@ -22,45 +21,42 @@ const props = defineProps<{
 </script>
 
 <template>
-  <CardBase :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
-    <div class="state-card-title-container">
-      <span class="state-card-name"> {{ name }} </span>
-      <span class="state-card-value"> {{ listeningKey }} </span>
+  <CardBase class="state-card-base" :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
+    <span class="state-card-name"> {{ name }} </span>
+    <span class="state-card-value"> {{ listeningKey }} </span>
+    <div class="state-card-state-container">
+      <span class="state-card-state"> {{ current_state ?? default_state }}</span>
     </div>
-    <span class="state-card-state"> {{ current_state ?? default_state }}</span>
   </CardBase>
 </template>
 
 <style lang="scss">
-.state-card-title-container {
-  position: absolute;
-  top: 25%;
-  width: 75%;
-  left: 12.5%;
+.state-card-base {
+  display: flex;
+  flex-direction: column;
 }
 
 .state-card-name {
-  display: block;
+  flex-grow: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 100%;
-  text-align: center;
   font-size: 1.5rem;
 }
 
 .state-card-value {
-  display: block;
+  flex-grow: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 100%;
-  text-align: center;
   font-size: 1.25rem;
   opacity: 75%;
 }
 
+.state-card-state-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .state-card-state {
-  position: absolute;
-  top: 60%;
-  width: 100%;
-  text-align: center;
   font-family: 'Courier New', Courier, monospace;
   font-size: 2rem;
 }
