@@ -74,7 +74,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <CardBase class="graph-card-base" :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey">
+  <CardBase class="graph-card-base" :cs="cs" :rs="rs" :ce="ce" :re="re" :listeningKey="listeningKey" @new-value="receive">
     <div class="graph-card-title-container">
       <span class="graph-card-name"> {{ name }} </span>
       <span class="graph-card-value"> {{ listeningKey }} </span>

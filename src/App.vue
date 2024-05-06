@@ -5,6 +5,7 @@ import GraphCard from './CardTypes/GraphCard.vue';
 import NumberCard from './CardTypes/NumberCard.vue';
 import StateCard from './CardTypes/StateCard.vue';
 import BentoBox from './BentoBox.vue';
+import NavBar from './NavBar/NavBar.vue';
 import { rows, columns, readouts } from './panel_construction';
 import { ref, type Ref } from 'vue';
 
@@ -25,6 +26,7 @@ async function makePanel() {
 </script>
 
 <template>
+  <NavBar />
   <BentoBox :rows="rows" :columns="columns">
     <template v-for="readout in readouts" :key="readout">
       <GraphCard v-if="readout.type == 'graph'" :name="readout.name" :cs="readout.position.cs" :rs="readout.position.rs"
