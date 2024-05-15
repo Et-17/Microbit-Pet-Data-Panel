@@ -154,4 +154,4 @@ async function makePanel() {
 #navbar-file-upload {
   display: none;
 }
-</style>@/panel_management/panel_construction
+</style>
