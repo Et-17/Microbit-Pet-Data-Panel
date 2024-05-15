@@ -6,7 +6,7 @@ import NumberCard from './CardTypes/NumberCard.vue';
 import StateCard from './CardTypes/StateCard.vue';
 import BentoBox from './BentoBox.vue';
 import NavBar from './NavBar/NavBar.vue';
-import { rows, columns, readouts } from './panel_construction';
+import { rows, columns, readouts } from './panel_management/panel_definition';
 import { ref, type Ref } from 'vue';
 </script>
 
@@ -32,3 +32,4 @@ import { ref, type Ref } from 'vue';
   --bento-gap: 20px;
 }
 </style>
+./panel_management/panel_construction

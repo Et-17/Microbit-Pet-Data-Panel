@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
 import { start, stop } from '@/receiver_management/receiver_management';
-import { rows, columns, readouts } from '@/panel_construction';
+import { constructPanel } from '@/panel_management/file_parsing';
 
 const label_toggle_on: Ref<boolean> = ref(false);
 const play_symbol: Ref<HTMLSpanElement | undefined> = ref(undefined);
@@ -50,9 +50,7 @@ async function makePanel() {
   const panel_description_file = panel_description_file_input.value.files[0];
   const panel_description = JSON.parse(await panel_description_file.text());
   console.log(panel_description);
-  rows.value = panel_description.rows;
-  columns.value = panel_description.columns;
-  readouts.value = panel_description.readouts;
+  constructPanel(panel_description);
 }
 </script>
 
