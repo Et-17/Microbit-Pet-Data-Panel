@@ -6,23 +6,17 @@ Smájá = microscope.SG.NOM
 
 ## Structure
 
-The website has two components: the panel, in the middle; and the buttons, in the bottom left corner.
-The panel is a grid, composed of readouts.
-There are three kinds of readouts: graph, state, and number.
-These will be discussed in more detail later on, but simply the graph readout displayed a graph, the state readout displays a textual state, and the number readout displays a number with an optional unit.
-Data is organized into *keys*, which are at most 8 ASCII characters.
-Each readout is assigned a key, and will display the data from that key, and data is sent by the pets to a specific key.
-Unfortunately, data can only be sent as a number, which is why the state readout exists: to map sent numbers into textual states.
+The website has two components: the panel, in the middle; and the navbar, on the left. The panel is a grid, composed of readouts. Each of these readouts are rectangles that can occupy either one square on the grid, or they can span across multiple. There are three readouts: graph, state, and number. These will be discussed in more detail later on, but essentially the graph readout displays a graph, the state readout displays a textual state, and the number readout displays a number with an optional unit. Data is organized into *keys*, which are at most 8 ASCII characters. Each readout is assigned a key, and will display the data from that key, and data is sent by the pets to a specific key. Unfortunately, data can only be sent as a number, which is why the state readout exists: to map sent numbers into textual states.
 
-For example, if you wanted to display a graph of a pet's compass heading and the amount of times that it has been fed,
-you could make a graph readout attached to the key `COMPHEAD` and a number readout attached to the key `NUMFED`.
-Then, on the pet's side, whenever you send the current heading to the key `COMPHEAD`, the new heading will be appended to the graph readout.
-Usually, you would do this at regular intervals, but this is by no means required.
-An whenever the pet gets fed, you send the new total feed count to `NUMFED`, and the number readout will automatically update to the most recently sent value.
+For example, if you wanted to display a graph of a pet's compass heading and the amount of times that it has been fed, you could make a graph readout attached to the key `COMPHEAD` and a number readout attached to the key `NUMFED`. Then, on the pet's side, whenever you send the current heading to the key `COMPHEAD`, the new heading will be appended to the graph readout. Usually, you would do this at regular intervals, but this is by no means required. An whenever the pet gets fed, you send the new total feed count to `NUMFED`, and the number readout will automatically update to the most recently sent value.
+
+## The Grid
+
+The grid can be a maximum of 9 cells in either direction. However, if you don't use all 9 cells, it will automatically expand to show your panel as large as it can. Coordinates on the grid are specified with a letter and a number. The letter, from A-I, represents the column. The number, from 1-9, represents the row. However, not that this is different from the coordinate system used in chess: the origin here is in the top left corner. The higher the column number goes, the futher right it will be. The higher the row number goes the futher down it will be.
 
 ### Graph Readout
 
-I believe that the readout that will most commonly be used is the graph readout. This presents a graph of the last `max_data_points` values. After so many values are sent, it will remove the oldest one when new ones come in. The x-axis of the graph does not have any inherent meaning, as all received values are place at an equal distant from the other values, and if a team wants the values to be spaced according to time, it is their responsibility to send values at equal intervals.
+The graph readout presents a graph of the last `max_data_points` values. After so many values are sent, it will remove the oldest one when new ones come in. The x-axis of the graph does not have any inherent meaning, as all received values are place at an equal distant from the other values, and if a team wants the values to be spaced according to time, it is their responsibility to send values at equal intervals.
 
 The y-axis is autoranging by default, but you are able to specify a `max_value` and a `min_value`. Note that these two values are separate: it is possible to have the y-axis always locked at a specific minimum while the maximum is autoranging and vice versa.
 
@@ -36,54 +30,40 @@ Sometimes you need to convy a text state, but you are only able to send numbers.
 
 ## The Panel Definition File
 
-The configuration of your panel is determined by the panel definition file. It is a JSON file that contains the configuration of your panel. It is an object that contains three things: `rows`, `columns`, and `readouts`, where `rows` and `columns` are the amount of rows and columns in your panel respectively, and `readouts` is an array of readout objects. Going back to the earlier example, if we wanted that panel to have 2 rows and 3 columns, we could write the following.
-```json
-{
-    "rows": 2,
-    "columns": 3,
-    "readouts": []
-}
-```
-The file can be named whatever you like as long as it is a `.json` file. The next step is clearly adding the readouts, so we will discuss those next.
+The configuration of your panel is determined by a JSON file named the panel definition file. It contains an array of objects, each of which is a readout. We will talk more about the structure of the file later, but first we need to talk about how to actually define these readouts.
 
 ### Readouts
 
-All readouts have common information that we will describe here, which is combined with type specific information. Each readout has a Unicode compliant `name`, which is diplayed at the top in big letters. Then you need to specify the `key`, which is displayed in smaller letters below the title. Next is `type`, which is `graph`, `state`, or `number`.
+Each readout is contained in curly braces, and every entry is separated by commas (it's kinda hard to explain briefly; see the example later). Every value and key is surrounded by quotes.
 
-The hardestpart of this to understand is the position definition. `position` is an object containing four values: `cs`, `rs`, `ce`, and `re`.  `cs` (column start) is the column of the upper left corner, `rs` (row start) is the row of the upper left corner, `ce` (column end) is the column of the lower right corner, and `re` (row end) is the row of the lower right corner. It is planned to add more visual aid fto help explain positioning, but for now just guess and check if you can't figure it out.
+All readouts have common information that we will describe here, which is combined with type specific information. Each readout has a Unicode compliant `name`, which is displayed at the top in big letters. Then, you need to specify the `key`, which is displayed near the name in smaller letters. Next is `type`, which is `graph`, `state`, or `number`.
 
-For example, if we have a number readout occupying cells stretching from cell $(0, 0)$ to cell $(0, 1)$ named "Steps" which uses the `stepcnt` key, then we could start the definition with the following.
+The hardest part of this to understand is the position definition. You must specify the upper left corner's grid square in `upper_left`, and the lower right corner's grid square in `lower_right`. If your readout is only one square then these will be the same, but you always need to have both of them. You can place readouts wherever you want in whatever size you want, but do keep in mind that the software will *not* prevent you from creating overlapping readouts.
+
+For example, if we have a number readout on the first row, stretching from the first to the second column, named "Steps" which uses the `stepcnt` key, then we could start the definition with the following.
 
 ```json
 {
     "name": "Steps",
     "key": "stepcnt",
     "type": "number",
-    "position": {
-        "cs": 0,
-        "rs": 0,
-        "ce": 1,
-        "re": 0
-    },
+    "upper_left": "A1",
+    "lower_right": "B1",
     ...
 }
 ```
 
 #### Graph Readout
 
-Only the `max_data_points` parameter is required. The `min_value` and `max_value` parameters are completely optional, as explained above. For example, say we have a graph readout named "Happiness %" that uses the key `happperc` and stretches from $(0, 0)$ to $(1, 3)$ and we want to display the last 300 data points. We know that percentages range from $0$-$100$, so we could write the following.
+Only the `max_data_points` parameter is required. The `min_value` and `max_value` parameters are completely optional, as explained above. For example, say we have a graph readout named "Happiness %" that uses the key `happperc` and stretches from "A1" to "B4" and we want to display the last 300 data points. We know that percentages range from $0$-$100$, so we could write the following.
 
 ```json
 {
     "name": "Happiness %",
     "key": "happperc",
     "type": "graph",
-    "position": {
-        "cs": 0,
-        "rs": 0,
-        "ce": 1,
-        "re": 3
-    },
+    "upper_left": "A1",
+    "lower_right": "B4",
     "max_data_points": 300,
     "max_value": 100,
     "min_value": 0
@@ -92,38 +72,30 @@ Only the `max_data_points` parameter is required. The `min_value` and `max_value
 
 #### Number Readout
 
-Just as the number readout is the simplest readout it has the simplest definition. The only parameter is `unit` and it is optional. Going back to our previous example of a number readout occupying cells stretching from cell $(0, 0)$ to cell $(0, 1)$ named "Steps" which uses the `stepcnt` key and using "steps" as the unit, we can write the following.
+Just as the number readout is the simplest readout is has the simplest definition. The only parameter is `unit` and it is optional. Going back to our previous example of a number readout stretching from "A1" to "A2" named "Steps" which uses the `stepcnt` key and using "steps" as the unit, we can write the following.
 
 ```json
 {
     "name": "Steps",
     "key": "stepcnt",
     "type": "number",
-    "position": {
-        "cs": 0,
-        "rs": 0,
-        "ce": 1,
-        "re": 0
-    },
+    "upper_left": "A1",
+    "lower_right": "A2",
     "unit": " steps"
 }
 ```
 
 #### State Readout
 
-The state readout is the most complicated to configure. The states are listed as an in the parameter `states` with object with with their coding numbers as the key (it's hard to explain, just see the example). It also takes the `default` parameters. For example, say we wanted a state readout with the name "Emotional State" with the key `emotstat`. It has three states: $1$ means "Unhappy", $2$ means "Meh", and $3$ means "Happy". For this, we can write the following.
+The state readout is the most complicated to configure. The states are listed as an object in the parameter `states` with their code numbers as the key. It also takes the `default` parameter, which will be displayed if the number sent doesn't match any of the specified states or if no numbers have been sent yet. For example, say we wanted a state readout with the name "Emotional State" with the key `emotstat`. It has three states: $1$ means "Unhappy", $2$ means "Meh", and $3$ means "Happy". For this, we can write the following.
 
 ```json
 {
     "name": "Emotional State",
     "key": "emotstat",
     "type": "state",
-    "position": {
-        "cs": 0,
-        "rs": 0,
-        "ce": 0,
-        "re": 0,
-    },
+    "upper_left": "A1",
+    "lower_right": "A1",
     "states": {
         "1": "Unhappy",
         "2": "Meh",
